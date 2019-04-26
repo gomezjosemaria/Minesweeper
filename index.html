@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+    <head id="head">
+        <link rel="stylesheet" type="text/css" href="./themes/style.css">
+        <link id="themeLink" rel="stylesheet" type="text/css">
+    </head>
+    <body id="body">
+        <div id="minesweeperDiv">
+            <div id="interfaceDiv">
+                <div id="minesCounterDiv"></div>
+                <button id="faceButton" class="faceButton" onclick="leftClickFaceButton(event)"></button>
+            </div>
+            <div id="gridDiv"></div>
+        </div>
+        <button id="themeButton" onclick="changeTheme()"></button>
+        <script src="minesweeper.js"></script>
+        <script>
+            
+            var themeLink, themeString, themeCSS, themeButton;
+            themeLink = document.getElementById("themeLink");
+            themeString = "01";
+            themeCSS = ("./themes/minesweeperTheme").concat(themeString, ".css");
+            themeLink.href = themeCSS;
+            themeButton = document.getElementById("themeButton");
+            
+            function setThemeButton (themeString) {
+                switch (themeString) {
+                    case "01":
+                        themeButton.className = "theme02";
+                        break;
+                    case "02":
+                        themeButton.className = "theme03";
+                        break;
+                    case "03":
+                        themeButton.className = "theme04";
+                        break;
+                    case "04":
+                        themeButton.className = "theme01";
+                        break;
+                    default:
+                        themeButton.className = "theme01";
+                        break;
+                }
+            }
+            
+            setThemeButton(themeString);
+            
+            function changeTheme() {
+                switch (themeString) {
+                case "01":
+                    themeLink.href = "./themes/minesweeperTheme02.css";
+                    themeString = "02";
+                    break;
+                case "02":
+                    themeLink.href = "./themes/minesweeperTheme03.css";
+                    themeString = "03";
+                    break;
+                case "03":
+                    themeLink.href = "./themes/minesweeperTheme04.css";
+                    themeString = "04";
+                    break;
+                case "04":
+                    themeLink.href = "./themes/minesweeperTheme01.css";
+                    themeString = "01";
+                    break;
+                default:
+                    themeLink.href = "./themes/minesweeperTheme01.css";
+                    themeString = "01";
+                    break;
+                }
+                setThemeButton(themeString);
+            }
+        
+        </script>
+        <script>
+            
+            var i, j, k, minesweeper, minesweeperDiv, gridDiv, rowDiv, minesCounterDiv, buttonsGrid, button, revealedBoxes;
+            
+            minesweeper = new Minesweeper(6, 6, 2);
+            minesweeperDiv = document.getElementById("minesweeperDiv");
+            gridDiv = document.getElementById("gridDiv");
+            minesCounterDiv = document.getElementById("minesCounterDiv");
+            buttonsGrid = [];
+            revealedBoxes = 0;
+            
+            //Creation of the minesCounterDiv
+            minesCounterDiv.innerText = minesweeper.n_mines;
+            
+            //Creation of the gridDiv
+            for (i = 0; i < minesweeper.rows; i += 1) {
+                buttonsGrid[i] = [];
+                rowDiv = document.createElement('div');
+                rowDiv.id = "rowDiv";
+                gridDiv.appendChild(rowDiv);
+                for (j = 0; j < minesweeper.columns; j += 1) {
+                    button = document.createElement('button');
+                    button.id = "unrevealed";
+                    button.className ="buttonGrid";
+                    button.onclick = (event) => {leftClickButton (event)};
+                    button.oncontextmenu = (event) => {rightClickButton(event);}
+                    button.row = i;
+                    button.column = j;
+                    rowDiv.appendChild(button);
+                    buttonsGrid[i][j] = button;
+                }
+            }
+            //End of the creation of the gridDiv
+            
+            //Reveal all the buttons whose blank_space is equal to the blan_space argument
+            function revealBlankSpaces (blank_space) {
+                for (i = 0; i < minesweeper.rows; i += 1) {
+                    for (j = 0; j < minesweeper.columns; j += 1) {
+                        if (minesweeper.grid[i][j].blank_space === blank_space) {
+                            showMine(buttonsGrid[i][j]);
+                            // [-1][-1]
+                            if (i - 1 >= 0 && j - 1 >= 0) {
+                                showMine(buttonsGrid[i - 1][j - 1]);
+                            }
+                            // [-1][0]
+                            if (i - 1 >= 0) {
+                                showMine(buttonsGrid[i - 1][j]);
+                            }
+                            // [-1][+1]
+                            if (i - 1 >= 0 && j + 1 < minesweeper.columns) {
+                                showMine(buttonsGrid[i - 1][j + 1]);
+                            }
+                            //[0][-1]
+                            if (j - 1 >= 0) {
+                                showMine(buttonsGrid[i][j - 1]);
+                            }
+                            // [0][+1]
+                            if (j + 1 < minesweeper.columns) {
+                                showMine(buttonsGrid[i][j + 1]);
+                            }
+                            // [+1][-1]
+                            if (i + 1 < minesweeper.rows && j - 1 >= 0) {
+                                showMine(buttonsGrid[i + 1][j - 1]);
+                            }
+                            // [+1][0]
+                            if (i + 1 < minesweeper.rows) {
+                                showMine(buttonsGrid[i + 1][j]);
+                            }
+                            // [+1][+1]
+                            if (i + 1 < minesweeper.rows && j + 1 < minesweeper.columns) {
+                                showMine(buttonsGrid[i + 1][j + 1]);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            //Function that is executed when a mine is finally revealed and reveals all the other mines
+            function mineRevealed (mineRevealedButton) {
+                
+                var faceButton;
+                
+                faceButton = document.getElementById("faceButton");
+                faceButton.id = "loseFaceButton";
+                
+                for (i = 0; i < minesweeper.rows; i += 1) {
+                    for (j = 0; j < minesweeper.columns; j += 1) {
+                        if (minesweeper.grid[i][j].mine === 9 && buttonsGrid[i][j] !== mineRevealedButton) {
+                            showMine(buttonsGrid[i][j]);
+                        }
+                        else {
+                            buttonsGrid[i][j].disabled = true;
+                        }
+                    }
+                }
+            }
+            
+            //Show the button.mine of the button pass as argument
+            function showMine (button) {
+                aux_box = minesweeper.grid[button.row][button.column];
+                if (button.id !== "unrevealed" && button.id !== "flag" && button.id !== "doubt") {
+                    return true;
+                }
+                switch (aux_box.mine) {
+                    case 0:
+                        button.id = "zero";
+                        break;
+                    case 1:
+                        button.id = "one";
+                        break;
+                    case 2:
+                        button.id = "two";
+                        break;
+                    case 3:
+                        button.id = "three";
+                        break;
+                    case 4:
+                        button.id = "four";
+                        break;
+                    case 5:
+                        button.id = "five";
+                        break;
+                    case 6:
+                        button.id = "six";
+                        break;
+                    case 7:
+                        button.id = "seven";
+                        break;
+                    case 8:
+                        button.id = "eight";
+                        break;
+                    case 9:
+                        button.id = "mine";
+                        break;
+                    default:
+                        break;
+                }
+                revealedBoxes += 1;
+                button.disabled = true;
+                if (minesweeper.rows * minesweeper.columns - revealedBoxes === minesweeper.n_mines) {
+                    win();
+                }
+                return true;  
+            }
+            
+            //Handler for the left click of a box.
+            function leftClickButton (event) {
+                
+                var button, aux_box;
+                
+                button = event.target;
+                aux_box = minesweeper.grid[button.row][button.column];
+                
+                switch (aux_box.mine) {
+                    
+                    case 0:
+                        revealBlankSpaces(aux_box.blank_space);
+                        break;
+                    case 9:
+                        button.id = "mineRevealed";
+                        mineRevealed(button);
+                        break;
+                    default:
+                        showMine(button);
+                        break;
+                }
+                button.disabled = true;
+                return true;  
+            }
+            
+            //Handler for the right click of a box.
+            function rightClickButton (event) {
+                
+                var button;
+                button = event.target;
+                
+                event.preventDefault();
+                
+                switch (button.id) {
+                        
+                    case "unrevealed":
+                        button.id = "flag";
+                        minesCounterDiv.innerText = parseInt(minesCounterDiv.innerText) - 1;
+                        break;
+                    case "flag":
+                        button.id = "doubt";
+                        minesCounterDiv.innerText = parseInt(minesCounterDiv.innerText) + 1;
+                        break;
+                    case "doubt":
+                        button.id = "unrevealed";
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+            
+            //Handler for the left click of the face button.
+            function leftClickFaceButton (event) {
+                
+                var faceButton;
+                faceButton = event.target;
+                if (faceButton.id !== "faceButton") {
+                    faceButton.id = "faceButton";
+                }
+                
+                revealedBoxes = 0;
+                
+                minesweeper = new Minesweeper(6, 6, 2);
+                minesCounterDiv.innerText = minesweeper.n_mines;
+                
+                for (i = 0; i < minesweeper.rows; i += 1) {
+                    for (j = 0; j < minesweeper.columns; j += 1) {
+                        console.log("i %o j %o",i,j);
+                        buttonsGrid[i][j].id = "unrevealed";
+                        buttonsGrid[i][j].disabled = false;
+                    }
+                }
+            }
+            
+            //Change the face button and disable the buttons.
+            function win () {
+                
+                var faceButton;
+                faceButton = document.getElementById("faceButton");
+                faceButton.id = "winFaceButton";
+                
+                for (i = 0; i < minesweeper.rows; i += 1) {
+                    for (j = 0; j < minesweeper.columns; j += 1) {
+                        buttonsGrid[i][j].disabled = true;
+                    }
+                }
+            }
+                
+        </script>
+    </body>
+</html>
