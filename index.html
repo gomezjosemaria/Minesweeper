@@ -76,7 +76,7 @@
             
             var i, j, k, minesweeper, minesweeperDiv, gridDiv, rowDiv, minesCounterDiv, buttonsGrid, button, revealedBoxes;
             
-            minesweeper = new Minesweeper(6, 6, 2);
+            minesweeper = new Minesweeper(16, 16, 40);
             minesweeperDiv = document.getElementById("minesweeperDiv");
             gridDiv = document.getElementById("gridDiv");
             minesCounterDiv = document.getElementById("minesCounterDiv");
@@ -280,7 +280,7 @@
                 
                 revealedBoxes = 0;
                 
-                minesweeper = new Minesweeper(6, 6, 2);
+                minesweeper = new Minesweeper(16, 16, 40);
                 minesCounterDiv.innerText = minesweeper.n_mines;
                 
                 for (i = 0; i < minesweeper.rows; i += 1) {
