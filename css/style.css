@@ -1,0 +1,84 @@
+:root {
+    --theme-01-color: #226089;
+    --theme-02-color: #A7D129;
+    --theme-03-color: #B5E0BA;
+    --theme-04-color: #DE4383;
+    --theme-05-color: #00BD56;
+}
+.theme01 {
+    background: var(--theme-01-color);
+}
+.theme02 {
+    background: var(--theme-02-color);
+}
+.theme03 {
+    background: var(--theme-03-color);
+}
+.theme04 {
+    background: var(--theme-04-color);
+}
+.theme05 {
+    background: var(--theme-05-color);
+}
+@font-face {
+    font-family: "Minecraft";
+    src: url(../font/Minecraft.ttf) format("truetype");
+}
+.buttonGrid {
+    border: none;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    padding: 0px;
+    margin: 0px;
+}
+.faceButton {
+    border: none;
+    height: 60px;
+    width: 60px;
+    padding: 0px;
+    margin: 10px;
+    display: inline-block;
+    float: right;
+}
+#minesCounterDiv {
+    display: inline-block;
+    font-family: "Minecraft";
+    font-size: 40px;
+    border-style: solid;
+    text-align: right;
+    height: 35px;
+    width: 120px;
+    padding: 5px;
+    margin: 10px;
+}
+#rowDiv {
+    display: flex;
+}
+#gridDiv {
+    display: table;
+    margin: 10px;
+}
+#minesweeperDiv {
+    padding: 10px;
+    display: inline-block;
+}
+#interfaceDiv {
+    display: block;
+}
+#themeButton {
+    border-radius: 50%;
+    border: none;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 10px;
+}
+html {
+    zoom: 67%;
+}
+button {
+    outline: none;
+}

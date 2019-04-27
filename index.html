@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head id="head">
-        <link rel="stylesheet" type="text/css" href="./themes/style.css">
+        <title>Minesweeper</title>
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
         <link id="themeLink" rel="stylesheet" type="text/css">
+        <link id ="iconLink" rel="icon">
     </head>
     <body id="body">
         <div id="minesweeperDiv">
@@ -16,15 +18,20 @@
         <script src="minesweeper.js"></script>
         <script>
             
-            var themeLink, themeString, themeCSS, themeButton;
+            var themeLink, themeString, themeCSS, themeButton, iconLink;
             themeLink = document.getElementById("themeLink");
-            themeString = "01";
+            iconLink = document.getElementById("iconLink");
+            themeString = "00";
             themeCSS = ("./themes/minesweeperTheme").concat(themeString, ".css");
             themeLink.href = themeCSS;
+            iconLink.href = ("./themes/minesweeperTheme").concat(themeString, "_icon.bmp");
             themeButton = document.getElementById("themeButton");
             
             function setThemeButton (themeString) {
                 switch (themeString) {
+                    case "00":
+                        themeButton.className = "theme01";
+                        break;
                     case "01":
                         themeButton.className = "theme02";
                         break;
@@ -35,10 +42,13 @@
                         themeButton.className = "theme04";
                         break;
                     case "04":
-                        themeButton.className = "theme01";
+                        themeButton.className = "theme05";
+                        break;
+                    case "05":
+                        themeButton.className = "theme00";
                         break;
                     default:
-                        themeButton.className = "theme01";
+                        themeButton.className = "theme00";
                         break;
                 }
             }
@@ -47,26 +57,41 @@
             
             function changeTheme() {
                 switch (themeString) {
-                case "01":
-                    themeLink.href = "./themes/minesweeperTheme02.css";
-                    themeString = "02";
-                    break;
-                case "02":
-                    themeLink.href = "./themes/minesweeperTheme03.css";
-                    themeString = "03";
-                    break;
-                case "03":
-                    themeLink.href = "./themes/minesweeperTheme04.css";
-                    themeString = "04";
-                    break;
-                case "04":
-                    themeLink.href = "./themes/minesweeperTheme01.css";
-                    themeString = "01";
-                    break;
-                default:
-                    themeLink.href = "./themes/minesweeperTheme01.css";
-                    themeString = "01";
-                    break;
+                    case "00":
+                        themeLink.href = "./themes/minesweeperTheme01.css";
+                        iconLink.href = "./themes/minesweeperTheme01_icon.bmp";
+                        themeString = "01";
+                        break;
+                    case "01":
+                        themeLink.href = "./themes/minesweeperTheme02.css";
+                        iconLink.href = "./themes/minesweeperTheme02_icon.bmp";
+                        themeString = "02";
+                        break;
+                    case "02":
+                        themeLink.href = "./themes/minesweeperTheme03.css";
+                        iconLink.href = "./themes/minesweeperTheme03_icon.bmp";
+                        themeString = "03";
+                        break;
+                    case "03":
+                        themeLink.href = "./themes/minesweeperTheme04.css";
+                        iconLink.href = "./themes/minesweeperTheme04_icon.bmp";
+                        themeString = "04";
+                        break;
+                    case "04":
+                        themeLink.href = "./themes/minesweeperTheme05.css";
+                        iconLink.href = "./themes/minesweeperTheme05_icon.bmp";
+                        themeString = "05";
+                        break;
+                    case "05":
+                        themeLink.href = "./themes/minesweeperTheme00.css";
+                        iconLink.href = "./themes/minesweeperTheme00_icon.bmp";
+                        themeString = "00";
+                        break;
+                    default:
+                        themeLink.href = "./themes/minesweeperTheme00.css";
+                        iconLink.href = "./themes/minesweeperTheme00_icon.bmp";
+                        themeString = "00";
+                        break;
                 }
                 setThemeButton(themeString);
             }
