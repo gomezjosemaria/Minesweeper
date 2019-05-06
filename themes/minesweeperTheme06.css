@@ -1,0 +1,68 @@
+:root {
+    --first-color: #97E8DD;
+    --second-color: #7189BF;
+    --third-color: #DF7599;
+    --fourth-color: #FFC785;
+}
+#unrevealed {
+    background: url(./minesweeperTheme06.bmp) -440px 0px;
+}
+#unrevealed:active {
+    background: url(./minesweeperTheme06.bmp) -560px, 0px;
+}
+#zero {
+    background: url(./minesweeperTheme06.bmp) 0px 0px;
+}
+#one {
+    background: url(./minesweeperTheme06.bmp) -40px 0px;
+}
+#two {
+    background: url(./minesweeperTheme06.bmp) -80px, 0px;
+}
+#three {
+    background: url(./minesweeperTheme06.bmp) -120px, 0px;
+}
+#four {
+    background: url(./minesweeperTheme06.bmp) -160px, 0px;
+}
+#five {
+    background: url(./minesweeperTheme06.bmp) -200px 0px;
+}
+#six {
+    background: url(./minesweeperTheme06.bmp) -240px, 0px;
+}
+#seven {
+    background: url(./minesweeperTheme06.bmp) -280px, 0px;
+}
+#mine {
+    background: url(./minesweeperTheme06.bmp) -360px, 0px;
+}
+#mineRevealed {
+    background: url(./minesweeperTheme06.bmp) -400px 0px;
+}
+#flag {
+    background: url(./minesweeperTheme06.bmp) -480px, 0px;
+}
+#doubt {
+    background: url(./minesweeperTheme06.bmp) -520px, 0px;
+}
+#faceButton {
+    background: url(./minesweeperTheme06_fb.bmp) 0px, 0px;
+}
+#loseFaceButton {
+    background: url(./minesweeperTheme06_fb.bmp) -120px, 0px;
+}
+#winFaceButton {
+    background: url(./minesweeperTheme06_fb.bmp) -60px, 0px;
+}
+#minesCounterDiv {
+    background-color: var(--second-color);
+    color: var(--fourth-color);
+    border-color: var(--first-color);
+}
+body {
+    background-color: var(--third-color);
+}
+button.faceButton:active {
+    background: url(./minesweeperTheme06_fb.bmp) -180px, 0px !important;
+}
