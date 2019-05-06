@@ -5,7 +5,7 @@ function Minesweeper(rows, columns, n_mines) {
     
     "use strict";
     
-    var i, j, k, q, aux_n_mines, r_row, r_column, previous_blank_space;
+    var i, j, k, q, aux, aux_n_mines, r_row, r_column, previous_blank_space;
     
     // Box of the grid
     function Box() {
@@ -107,34 +107,108 @@ function Minesweeper(rows, columns, n_mines) {
     for (i = 1; i < this.rows; i += 1) {
         previous_blank_space = false;
         for (j = 0; j < this.columns; j += 1) {
+            //[x!=0]
             if (this.grid[i][j].mine === 0) {
+                //[?][a!=0]
+                //[?][x]
                 if (this.grid[i - 1][j].blank_space !== 0) {
-                    this.grid[i][j].blank_space = this.grid[i - 1][j].blank_space;
+                    //[?][a!=0]
+                    //[b!=0][x]
                     if (previous_blank_space === true) {
-                        if (this.grid[i][j - 1].blank_space !== this.grid[i][j].blank_space) {
-                            // From the beginning to row i
+                        //[?][a]
+                        //[>a][x]
+                        if (this.grid[i - 1][j].blank_space < this.grid[i][j - 1].blank_space) {
                             for (k = 0; k < i; k += 1) {
                                 for (q = 0; q < this.columns; q += 1) {
                                     if (this.grid[k][q].blank_space === this.grid[i][j - 1].blank_space) {
-                                        this.grid[k][q].blank_space = this.grid[i][j].blank_space;
+                                        this.grid[k][q].blank_space = this.grid[i - 1][j].blank_space;
                                     }
                                 }
                             }
-                            // From the beginning of the row i to j - 1
-                            for (k = 0; k < j - 1; k += 1) {
-                                if (this.grid[i][k].blank_space === this.grid[i][j - 1].blank_space) {
-                                    this.grid[i][k].blank_space = this.grid[i][j].blank_space;
+                            for (q = 0; q < j - 1; q += 1) {
+                                if (this.grid[i][q].blank_space === this.grid[i][j - 1].blank_space) {
+                                    this.grid[i][q].blank_space = this.grid[i - 1][j].blank_space;
                                 }
                             }
-                            this.grid[i][j - 1].blank_space = this.grid[i][j].blank_space;
+                            this.grid[i][j - 1].blank_space = this.grid[i - 1][j].blank_space;
+                            this.grid[i][j].blank_space = this.grid[i - 1][j].blank_space;
                             this.n_blank_spaces -= 1;
+                        //[?][>b]
+                        //[b][x]
+                        } else if (this.grid[i - 1][j].blank_space > this.grid[i][j - 1].blank_space) {
+                            aux = this.grid[i - 1][j].blank_space;
+                            for (k = 0; k < i; k += 1) {
+                                for (q = 0; q < this.columns; q += 1) {
+                                    if (this.grid[k][q].blank_space === aux) {
+                                        this.grid[k][q].blank_space = this.grid[i][j - 1].blank_space;
+                                    }
+                                }
+                            }
+                            this.grid[i][j].blank_space = this.grid[i][j - 1].blank_space;
+                            this.n_blank_spaces -= 1;
+                        //[?][a=b]
+                        //[b=a][x]
+                        } else {
+                            this.grid[i][j].blank_space = this.grid[i][j - 1].blank_space;
                         }
+                    //[?][a]
+                    //[0][x]
+                    } else {
+                        this.grid[i][j].blank_space = this.grid[i - 1][j].blank_space;
                     }
+                //[?][0]
+                //[b][x]
                 } else if (previous_blank_space === true) {
                     this.grid[i][j].blank_space = this.grid[i][j - 1].blank_space;
+                //[c][0]
+                //[0][x]
+                } else if (j - 1 > 0 && this.grid[i - 1][j - 1].blank_space !== 0) {
+                    this.grid[i][j].blank_space = this.grid[i - 1][j - 1].blank_space;
+                //[0][0]
+                //[0][x]
                 } else {
                     this.n_blank_spaces += 1;
                     this.grid[i][j].blank_space = this.n_blank_spaces;
+                }
+                //[0][d]
+                //[x!=0][0]
+                if (j + 1 < this.columns && this.grid[i - 1][j + 1].blank_space !== 0 && this.grid[i - 1][j].blank_space === 0 && this.grid[i][j + 1].mine !== 9) {
+                    
+                    //[0][d]
+                    //[x>d][0]
+                    if (this.grid[i][j].blank_space > this.grid[i - 1][j + 1].blank_space) {
+                        for (k = 0; k < i; k += 1) {
+                            for (q = 0; q < this.columns; q += 1) {
+                                if (this.grid[k][q].blank_space === this.grid[i][j].blank_space) {
+                                    this.grid[k][q].blank_space = this.grid[i - 1][j + 1].blank_space;
+                                }
+                            }
+                        }
+                        for (q = 0; q < j; q += 1) {
+                            if (this.grid[i][q].blank_space === this.grid[i][j].blank_space) {
+                                this.grid[i][q].blank_space = this.grid[i - 1][j + 1].blank_space;
+                            }
+                        }
+                        this.grid[i][j].blank_space = this.grid[i - 1][j + 1].blank_space;
+                        this.n_blank_spaces -= 1;
+                    //[0][d]
+                    //[x<d][0]
+                    } else if (this.grid[i][j].blank_space < this.grid[i - 1][j + 1].blank_space) {
+                        aux = this.grid[i - 1][j + 1].blank_space;
+                        for (k = 0; k < i; k += 1) {
+                            for (q = 0; q < this.columns; q += 1) {
+                                if (this.grid[k][q].blank_space === aux) {
+                                    this.grid[k][q].blank_space = this.grid[i][j].blank_space;
+                                }
+                            }
+                        }
+                        for (q = 0; q < j; q += 1) {
+                            if (this.grid[i][q].blank_space === aux) {
+                                this.grid[i][q].blank_space = this.grid[i][j];
+                            }
+                        }
+                        this.n_blank_spaces -= 1;
+                    }
                 }
                 previous_blank_space = true;
             } else {
