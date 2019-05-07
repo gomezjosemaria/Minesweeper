@@ -5,6 +5,9 @@
     --theme-04-color: #DE4383;
     --theme-05-color: #00BD56;
     --theme-06-color: #DF7599;
+    --theme-07-color: #099A97;
+    --theme-08-color: #D61D4E;
+    --theme-09-color: #00D1CD;
 }
 .theme01 {
     background: var(--theme-01-color);
@@ -23,6 +26,15 @@
 }
 .theme06 {
     background: var(--theme-06-color);
+}
+.theme07 {
+    background: var(--theme-07-color);
+}
+.theme08 {
+    background: var(--theme-08-color);
+}
+.theme09 {
+    background: var(--theme-09-color);
 }
 @font-face {
     font-family: "Minecraft";

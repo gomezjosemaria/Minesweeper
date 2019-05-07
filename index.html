@@ -48,6 +48,15 @@
                         themeButton.className = "theme06";
                         break;
                     case "06":
+                        themeButton.className = "theme07";
+                        break;
+                    case "07":
+                        themeButton.className = "theme08";
+                        break;
+                    case "08":
+                        themeButton.className = "theme09";
+                        break;
+                    case "09":
                         themeButton.className = "theme00";
                         break;
                     default:
@@ -91,6 +100,21 @@
                         themeString = "06";
                         break;
                     case "06":
+                        themeLink.href = "./themes/minesweeperTheme07.css";
+                        iconLink.href = "./themes/minesweeperTheme07_icon.bmp";
+                        themeString = "07";
+                        break;
+                    case "07":
+                        themeLink.href = "./themes/minesweeperTheme08.css";
+                        iconLink.href = "./themes/minesweeperTheme08_icon.bmp";
+                        themeString = "08";
+                        break;
+                    case "08":
+                        themeLink.href = "./themes/minesweeperTheme09.css";
+                        iconLink.href = "./themes/minesweeperTheme09_icon.bmp";
+                        themeString = "09";
+                        break;
+                    case "09":
                         themeLink.href = "./themes/minesweeperTheme00.css";
                         iconLink.href = "./themes/minesweeperTheme00_icon.bmp";
                         themeString = "00";
@@ -318,7 +342,6 @@
                 
                 for (i = 0; i < minesweeper.rows; i += 1) {
                     for (j = 0; j < minesweeper.columns; j += 1) {
-                        console.log("i %o j %o",i,j);
                         buttonsGrid[i][j].id = "unrevealed";
                         buttonsGrid[i][j].disabled = false;
                     }
